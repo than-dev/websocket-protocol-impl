@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket client</title>
+</head>
+<body>
+    <output id='messages'></output>
+    <script>
+        const messages = document.getElementById('messages');
+        const socket = new WebSocket('ws://localhost:1337');
+
+        socket.onclose = (event) => console.log('disconnected from websocket server!');
+        socket.onopen = () => { 
+            console.log('websocket connected!')
+
+            const id = Math.round(Math.random() * 100);
+
+            console.log('sending...', id);
+
+            const data = JSON.stringify(
+                [
+                    {
+                        id,
+                        name: `[${id}] Nathan Cotrim`,
+                        address: {
+                            street: 'street of lucky',
+                            number: id * 12,
+                        },
+                        profession: 'dev'
+                    },
+                    {
+                        id,
+                        name: `[${id}] Nathan Cotrim`,
+                        address: {
+                            street: 'street of lucky',
+                            number: id * 12,
+                        },
+                        profession: 'dev'
+                    },
+                    {
+                        id,
+                        name: `[${id}] Nathan Cotrim`,
+                        address: {
+                            street: 'street of lucky',
+                            number: id * 12,
+                        },
+                        profession: 'dev'
+                    },
+                    {
+                        id,
+                        name: `[${id}] Nathan Cotrim`,
+                        address: {
+                            street: 'street of lucky',
+                            number: id * 12,
+                        },
+                        profession: 'dev'
+                    },
+                ]
+            )
+
+            socket.send(data);
+        };
+        socket.onerror = (error) => console.log('websocket error!', error);
+        socket.onmessage = (message) => { 
+            const receivedData = message.data;
+            
+            console.log('message received!', receivedData)
+
+            messages.innerHTML += `<br/> ${receivedData}`
+        };
+
+    </script>
+    
+</body>
+</html>
